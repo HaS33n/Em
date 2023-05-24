@@ -16,18 +16,23 @@ ClickableAppEntity::ClickableAppEntity(unsigned short int no, sf::RectangleShape
 	entity.setPosition(pos);
 }
 
-ClickableAppEntity::ClickableAppEntity(unsigned short int no, sf::Text txt, sf::Vector2f pos) {
+ClickableAppEntity::ClickableAppEntity(unsigned short int no, sf::Text& txt, sf::Vector2f pos) {
 	number = no;
-	rTX.create(txt.getLocalBounds().width, txt.getLocalBounds().height);
-	rTX.clear();
+	rTX.create(txt.getLocalBounds().width, txt.getLocalBounds().height * 1.5);
+	rTX.clear(sf::Color::Black);
 	rTX.draw(txt);
 	rTX.display();
 	entity.setTexture(rTX.getTexture());
 	entity.setPosition(pos);
 }
 
-unsigned short int ClickableAppEntity::isClicked(sf::Vector2i mousepos, sf::RenderTexture& trt) {
-	if (entity.getGlobalBounds().contains(trt.mapPixelToCoords(mousepos))) {
+short int ClickableAppEntity::isClicked(sf::Vector2f mousepos) {
+	sf::FloatRect bounds = entity.getGlobalBounds();
+
+	//std::cout << "bounds: " << bounds.left << "," << bounds.top << std::endl;
+	//std::cout << "mousepos: " << mousepos.x << "," << mousepos.y << std::endl;
+
+	if (bounds.contains(mousepos)) {
 		std::cout<<"clicked entity no: "<<number<<std::endl;
 		return number;
 	}

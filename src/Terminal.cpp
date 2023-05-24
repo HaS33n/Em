@@ -14,11 +14,22 @@ Terminal::Terminal(std::string title, sf::Vector2f size, sf::Font& fnt, bool mom
 }
 
 void Terminal::addClickable() {
+	
 	sf::RectangleShape rs;
 	rs.setFillColor(sf::Color::Red);
 	rs.setSize(sf::Vector2f(50, 50));
-	clickables.push_back(std::make_shared<ClickableAppEntity>(clickables.size(), rs, sf::Vector2f(200, 200)));
+	clickables.push_back(std::make_shared<ClickableAppEntity>(clickables.size(), rs, sf::Vector2f(0, 30 * scale + clickables.size() * 50)));
 	clickables[clickables.size() - 1]->display(baseTX);
+	
+	/*
+	sf::Text txt;
+	txt.setString("Nigger OS!");
+	txt.setCharacterSize(15 * scale);
+	txt.setFillColor(sf::Color::White);
+	txt.setFont(font);
+	clickables.push_back(std::make_shared<ClickableAppEntity>(clickables.size(), txt, sf::Vector2f(0, 30*scale + clickables.size()*20*scale)));
+	*/
+
 }
 
 void Terminal::dragWindow(const sf::Event& event) {

@@ -5,7 +5,7 @@ Application::Application(std::string title, sf::Vector2f size, sf::Font& fnt, fl
 	isBeingDreagged = false;
     scale = sc;
 
-	baseTX.create(size.x* scale,size.y * scale);
+	baseTX.create(size.x* scale,(size.y * scale) + (30*scale));
 	baseTX.clear(sf::Color::Black);
 	
 
@@ -67,9 +67,10 @@ std::string Application::getName(){
     return name;
 }
 
-void Application::handleClickables(sf::Vector2i pixel) {
+void Application::handleClickables(sf::Vector2f pos) {
     for (auto& it : clickables) {
-        std::cout<<it->isClicked(pixel, this->baseTX);
+        std::cout<<it->isClicked(pos - window.getPosition()); //to dzia³a tylko przy za³o¿eniu, ¿e origin jest niezmieniony.
+         
     }
 }
 
@@ -84,7 +85,7 @@ void Application::refreshApp() {
     txt.setFillColor(sf::Color::Black);
     txt.setFont(font);
     txt.setOrigin(sf::Vector2f(txt.getLocalBounds().width / 2, txt.getLocalBounds().height / 2));
-    txt.setPosition(sf::Vector2f(baseTX.getSize().x * scale / 2, bar.getSize().y / 2));
+    txt.setPosition(sf::Vector2f(baseTX.getSize().x / 2, bar.getSize().y / 2));
 
     baseTX.draw(bar);
     baseTX.draw(txt);

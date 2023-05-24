@@ -16,10 +16,11 @@ void Clock::updateClock() {
     //std::time_t current_time = std::chrono::system_clock::to_time_t(now);
 
     auto t = std::time(nullptr);
-    auto tm = *std::localtime(&t); //deprecated w release
+    tm lct;
+    ::localtime_s(&lct,&t); //deprecated w release
 
     std::ostringstream oss;
-    oss << std::put_time(&tm, "%d-%m-%Y %H-%M-%S");
+    oss << std::put_time(&lct, "%d-%m-%Y %H-%M-%S");
     auto str = oss.str();
 
     content.setString(str);

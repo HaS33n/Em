@@ -7,8 +7,8 @@ class ClickableAppEntity : public sf::Drawable
 public:
 	ClickableAppEntity(unsigned short int no,sf::Texture& tx,sf::Vector2f pos);
 	ClickableAppEntity(unsigned short int no, sf::RectangleShape rs, sf::Vector2f pos);
-	ClickableAppEntity(unsigned short int no, sf::Text txt, sf::Vector2f pos);
-	unsigned short int isClicked(sf::Vector2i mousepos, sf::RenderTexture& trt);
+	ClickableAppEntity(unsigned short int no, sf::Text& txt, sf::Vector2f pos);
+	short int isClicked(sf::Vector2f mousepos);
 	void setPos(sf::Vector2f pos) { entity.setPosition(pos); }
 	void display(sf::RenderTexture& tT);
 

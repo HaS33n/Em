@@ -40,7 +40,7 @@ void ShitManager::handleMouse(sf::Vector2f mousepos, sf::Vector2i pixelmousepos)
 			slctd = it.second;
 			std::cout << "selected: " << it.first << std::endl;
 			
-			it.second->handleClickables(pixelmousepos);
+			//it.second->handleClickables(pixelmousepos);
 		}
 	}
 

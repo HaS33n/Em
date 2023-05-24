@@ -27,8 +27,9 @@ public:
 	virtual sf::RenderTexture& getSpriteTexture();
 	virtual void dragWindow(const sf::Event& event);
 	virtual std::string getName();
-	virtual void handleClickables(sf::Vector2i pixel);
+	virtual void handleClickables(sf::Vector2f pos);
 	virtual void refreshApp(); 
+	virtual sf::RenderTexture& getBTX() { return baseTX; }
 protected:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
