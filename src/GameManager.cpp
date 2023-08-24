@@ -1,10 +1,10 @@
 #include "..\include\GameManager.h"
-GameManager::GameManager(sf::RenderWindow& window) : m_window(window) {
+GameManager::GameManager(sf::RenderWindow& window) : m_window(window), settings("settings.ini") {
+	settings.read(data);
 
-	m_window.setFramerateLimit(300);
+	m_window.setFramerateLimit(stoi(data["Graphical"]["framerateLimit"])); //invalid argument
 	SM.setFont(RM.loadFont("arial"));
-	std::cout << "enter interface scale: ";
-	std::cin >> iS;
+	iS = stof(data["Graphical"]["interfaceScale"]);
 	SM.setScale(iS);
 	float sx, sy;
 	sx = float(sf::VideoMode::getDesktopMode().width) / float(3840);
@@ -20,7 +20,7 @@ GameManager::GameManager(sf::RenderWindow& window) : m_window(window) {
 	starticon.setPosition(sf::Vector2f(0, sf::VideoMode::getDesktopMode().height - (40 * iS)));
 
 	RM.loadTexture("background");
-	bg.setTexture(RM.loadTexture("background"));
+	bg.setTexture(RM.loadTexture("background")); //true
 	
 	SM.addIcon("Messenger", RM.loadTexture("Messenger"), sf::Vector2f(50,50),iS,false);
 	SM.addIcon("Terminal", RM.loadTexture("Terminal"), sf::Vector2f(80, 80),iS,false);
@@ -67,7 +67,7 @@ void GameManager::runGame() {
 void GameManager::handleMouse(sf::Vector2i mousepos) {
 	std::cout << mousepos.x << " " << mousepos.y << std::endl;
 
-	SM.handleMouse(m_window.mapPixelToCoords(mousepos),mousepos);
+	SM.handleMouse(m_window.mapPixelToCoords(mousepos));
 		
 }
 
@@ -87,6 +87,10 @@ void GameManager::handleKeyboard(sf::Keyboard::Key key) {
 		if (SM.slctd != nullptr) {
 			SM.addIcon(SM.slctd->getName(), RM.loadTexture(SM.slctd->getName()), sf::Vector2f(0, 0), iS, true);
 		}
+	}
+	else if (key == sf::Keyboard::D) {
+		//if (SM.slctd != nullptr)
+			//SM.slctd->addClickable();
 	}
 		
 

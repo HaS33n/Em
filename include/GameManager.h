@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "Icon.h"
 #include "Clock.h"
+#include "ini.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <fstream>
@@ -30,4 +31,7 @@ private:
     sf::Sprite bg;
     sf::RectangleShape taskbar,starticon;
     sf::Texture ss;
+
+    mINI::INIFile settings;
+    mINI::INIStructure data;
 };

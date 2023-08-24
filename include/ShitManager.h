@@ -16,7 +16,7 @@ public:
 	void setScale(float s) { iS = s; }
 	void addApp(std::string name);
 	void killApp(std::string name);
-	void handleMouse(sf::Vector2f mousepos, sf::Vector2i pixelmousepos);
+	void handleMouse(sf::Vector2f mousepos);
 	void testIcons();
 	void addIcon(std::string iname, sf::Texture& itx, sf::Vector2f iPosition, float scale, bool isTaskbar);
 private:

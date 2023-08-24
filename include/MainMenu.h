@@ -5,12 +5,14 @@
 #include "ResourceManager.h"
 #include "Terminal.h"
 
+
 class MainMenu //68 wierszy siê miesci w CMD, 1440-30=1410 || 1410/68 = 20.7
 {
 public:
 	MainMenu(sf::RenderWindow& window);
 	~MainMenu() { delete MMTerminal; }
 	void runMenu();
+	void refreshSettings(void);
 
 private:
 	void updateWindow();
@@ -24,7 +26,8 @@ private:
 
 	Terminal* MMTerminal;
 	
-	
+	mINI::INIFile settings;
+	mINI::INIStructure data;
 };
 
 
