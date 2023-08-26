@@ -4,16 +4,24 @@
 #include <iostream>
 #include "ResourceManager.h"
 #include "Terminal.h"
+#include "Clock.h"
+
 
 class MainMenu //68 wierszy siê miesci w CMD, 1440-30=1410 || 1410/68 = 20.7
 {
 public:
 	MainMenu(sf::RenderWindow& window);
-	~MainMenu() { delete MMTerminal; }
 	void runMenu();
 
-private:
+private: 
 	void updateWindow();
+
+	Clock clk;
+
+	sf::RectangleShape pswdbox, pbttn, speaker, pwrbttn, sttngs, conn, batt; //toppanel;
+	sf::CircleShape avtr;
+	sf::Text usrname, ptxt, psswd;
+	sf::VertexArray toppanel;
 
 	sf::Event event;
 	ResourceManager RM;
@@ -22,10 +30,12 @@ private:
 	sf::Shader blurshader;
 	float iS;
 
-	Terminal* MMTerminal;
-	
-	
+
+	sf::Clock timer;
+	sf::Time t1;
+	bool startSequence;
 };
+
 
 
 

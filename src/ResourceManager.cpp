@@ -13,6 +13,7 @@ sf::Texture& ResourceManager::loadTexture(const std::string& filename) {
 
     // load and store
     sf::Texture texture;
+    texture.setSmooth(true);
     if (texture.loadFromFile("resources/textures/" + filename + ".png")) {
         std::cout << "loaded texture: " << filename << std::endl;
         return m_textures.emplace(filename, std::move(texture)).first->second;

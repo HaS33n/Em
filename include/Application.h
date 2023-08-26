@@ -5,15 +5,9 @@
 #include "json.hpp"
 #include "ClickableAppEntity.h"
 #include <vector>
+#include <unordered_map>
 
 using json = nlohmann::json;
-
-/*
-todo:
-
-renderujemy wszystko na RenderTexture, któr¹ nak³adamy potem na Spirte "window". Mo¿na u¿yæ jakieœ unorderedmap zawieraj¹cej
-wskazniki na klasy dziedziczace po sf::Drawable i wtedy metoda Display() nie bêdzie musia³a byæ przys³aniana.
-*/
 
 
 //30px bar
@@ -27,10 +21,17 @@ public:
 	virtual sf::RenderTexture& getSpriteTexture();
 	virtual void dragWindow(const sf::Event& event);
 	virtual std::string getName();
-	virtual void handleClickables(sf::Vector2i pixel);
+	virtual void handleClickables(sf::Vector2f pos);
 	virtual void refreshApp(); 
+	virtual sf::RenderTexture& getBTX() { return baseTX; }
+	virtual void addClickable(sf::Drawable* clkb, bool active, int index = -1);
+	virtual void removeClickable() {}; //do usuniecia ig?
+	virtual inline void clearContent() { Content.clear(); }
+
 protected:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+	 int clickable_output;
 
 	float scale;
 	sf::RenderTexture baseTX;
@@ -41,6 +42,8 @@ protected:
 	bool isBeingDreagged;
 	sf::Vector2f dragOffset;
 
-	std::vector <std::shared_ptr<ClickableAppEntity>> clickables;
+	//std::unordered_map<unsigned int, std::shared_ptr<sf::Drawable>> Content;
+
+	std::vector <std::shared_ptr<ClickableAppEntity>> Content;
 };
 
