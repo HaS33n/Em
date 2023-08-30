@@ -1,12 +1,18 @@
 #include "..\include\MainMenu.h"
 
 MainMenu::MainMenu(sf::RenderWindow& window) : m_window(window){
-	
-	startSequence = false;
 	m_window.setVerticalSyncEnabled(true);
+
+	startSequence = false;
+	changeScreens = false;
+	fc = true;
+	
 	iS = 1.25;
 	t1 = sf::milliseconds(0);
 
+	//kurtyna
+	BBB.setSize(sf::Vector2f(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height));
+	BBB.setFillColor(sf::Color(0, 0, 0, 0));
 
 	//toppanel
 	toppanel.setPrimitiveType(sf::Quads);
@@ -124,8 +130,12 @@ void MainMenu::runMenu() {
 				break;
 			case sf::Event::MouseButtonPressed:
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-					if(pbttn.getGlobalBounds().contains(event.mouseButton.x,event.mouseButton.y))
-						startSequence=true;
+					if (pbttn.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+						startSequence = true;
+
+					else if (pwrbttn.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) 
+						m_window.close();
+						
 				}
 					
 				break;
@@ -140,16 +150,35 @@ void MainMenu::runMenu() {
 		
 		
 		if (startSequence) {
-			t1 += timer.restart();;
+			t1 += timer.restart();
 			if (t1 > sf::milliseconds(30)) {
 				psswd.setString(psswd.getString() + "*");
 				t1 = sf::milliseconds(0);
 			}
 		}
 		
-		if (psswd.getString() == "*************")
+		if (psswd.getString() == "*************"){
+			/*
+			changeScreens = true;
+			t1 = sf::milliseconds(0);
+			timer.restart();
+			fc = false;
+			*/
 			goto closemenu;
+		}
+			
 
+		if (changeScreens) {
+			
+			t1 += timer.restart();
+			if (1.275 * t1.asMilliseconds() >= 255)
+				goto closemenu;
+			BBB.setFillColor(sf::Color(0, 0, 0, 1.275 * t1.asMilliseconds()));
+			
+
+			//BBB.setFillColor(sf::Color(0, 0, 0, 255));
+		}
+		
 
 
 	}
@@ -177,5 +206,8 @@ void MainMenu::updateWindow() {
 	m_window.draw(avtr);
 	m_window.draw(usrname);
 	m_window.draw(psswd);
+
+	if (changeScreens)
+		m_window.draw(BBB);
 	m_window.display();
 }

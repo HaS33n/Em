@@ -9,6 +9,8 @@ int main()
 	MainMenu* MM = new MainMenu(window);
 	MM->runMenu();
 	delete MM;
+	if (!window.isOpen())
+		return 0;
 	GameManager GM(window);
 	GM.runGame();
 

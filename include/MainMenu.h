@@ -34,6 +34,8 @@ private:
 	sf::Clock timer;
 	sf::Time t1;
 	bool startSequence;
+	bool changeScreens, fc;
+	sf::RectangleShape BBB;
 };
 
 

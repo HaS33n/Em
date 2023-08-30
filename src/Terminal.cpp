@@ -1,18 +1,14 @@
 #include "..\include\Terminal.h"
-Terminal::Terminal(std::string title, sf::Vector2f size, sf::Font& fnt, bool mom,float scale) : Application(title,size,fnt,scale) { 
-	
-	menuOperationMode = mom;
-	if (mom) {
+Terminal::Terminal(std::string title, sf::Vector2f size, sf::Font& fnt, float scale) : Application(title,size,fnt,scale) { 
+	currentNode = 1;
 		//loading dialogueTree
-		currentNode = 1;
+		
 		std::ifstream file("mm.atrf");
 		if (!file.is_open()) {
 			std::cout << "Failed to open main menu critical files" << std::endl;
 			return;
 		}
 
-		//init function map
-		//fMap["audio"] = handleAudioSettings;
 
 
 
@@ -61,7 +57,7 @@ Terminal::Terminal(std::string title, sf::Vector2f size, sf::Font& fnt, bool mom
 		}
 
 		file.close();
-	}
+	
 	sf::Text buff("CarrotPie Operating system, Version 2.13.7", font, 16 * scale); //B-52 kappa
 	buff.setFillColor(sf::Color::White);
 	sf::Drawable* dw = new sf::Text(buff);
@@ -72,7 +68,6 @@ Terminal::Terminal(std::string title, sf::Vector2f size, sf::Font& fnt, bool mom
 }
 
 void Terminal::dragWindow(const sf::Event& event) {
-	if (!menuOperationMode) {
 		if (event.type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			// Check if the mouse is over the sprite
@@ -92,7 +87,7 @@ void Terminal::dragWindow(const sf::Event& event) {
 			window.setPosition(sf::Vector2f(event.mouseMove.x, event.mouseMove.y) - dragOffset);
 		}
 	}
-}
+
 
 void Terminal::handleClickables(sf::Vector2f pos){
 	Application::handleClickables(pos);
@@ -103,7 +98,7 @@ void Terminal::handleClickables(sf::Vector2f pos){
 void Terminal::displayCurrentNode()
 {
 	std::cout << "current node = " << currentNode << std::endl;
-	const DialogueNode& displayedNode = menuDialogues.at(currentNode); //tu siê wypierdala jak nie trafisz z kliknieciem 300
+	const DialogueNode& displayedNode = menuDialogues.at(currentNode); //nie ³aduje dialogów bo mom
 	sf::Text buff(displayedNode.text, font, 16 * scale); //B-52 kappa
 	buff.setFillColor(sf::Color::White);
 	sf::Drawable* dw = new sf::Text(buff);
@@ -150,31 +145,6 @@ void Terminal::switchNode( int id)
 	sf::Drawable* dw = new sf::Text(buff);
 	addClickable(dw, false);
 	delete dw;
-
-	
-	if (displayedNode.isFunctionNode == true) { //switch case
-		if (displayedNode.fName == "handleScaleSettings") {
-			//settings["Graphical"]["framerateLimit"] = std::to_string(id);
-			(*data)["Graphical"]["interfaceScale"] = std::to_string(static_cast<float>(id) /100.f); // XD kurwa
-			Content.pop_back();
-
-			buff.setString("root@UwU: /home/H3n# " + cmmd); //+ " " + std::to_string(id));
-			sf::Drawable* dw = new sf::Text(buff);
-			addClickable(dw, false);
-			delete dw;
-			
-			settings->write(*data);
-			currentNode = 31;
-			clickable_output = 31;
-			
-			goto skip;
-		}
-			
-		
-	}
-
-
-
 	currentNode = id;
 
 	skip:
@@ -182,17 +152,4 @@ void Terminal::switchNode( int id)
 
 
 }
-
-void Terminal::handleAudioSettings(const std::string& arg)
-{
-	std::cout << "nigger";
-
-}
-// i tu te¿ XD
-
-//void Terminal::refreshApp() {
-	//clearContent();
-	//Application::refreshApp();
-
-//}
 

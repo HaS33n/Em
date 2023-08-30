@@ -10,7 +10,7 @@ void ShitManager::addApp(std::string name) {
 			appptr = std::make_shared<Messenger>(name,sf::Vector2f(550,350),mainfont,iS);
 
 		else if (name == "Terminal")
-			appptr = std::make_shared<Terminal>(name, sf::Vector2f(550, 350),mainfont,false,iS);
+			appptr = std::make_shared<Terminal>(name, sf::Vector2f(550, 350),mainfont,iS);
 
 		if (appptr != nullptr) {
 			apps[name] = appptr;
@@ -47,32 +47,4 @@ void ShitManager::handleMouse(sf::Vector2f mousepos) {
 	}
 end:
 	return;
-}
-
-void ShitManager::testIcons() {
-	for (auto& it : icons) {
-		if (it.second->openAppPlz) {
-			addApp(it.second->name);
-			it.second->openAppPlz = false;
-		}
-	}
-
-	for (auto& it : taskbaricons) {
-		if (it.second->openAppPlz) {
-			addApp(it.second->name);
-			it.second->openAppPlz = false;
-		}
-	}
-}
-
-void ShitManager::addIcon(std::string iname, sf::Texture& itx, sf::Vector2f iPosition, float scale, bool isTaskbar) {
-	if (!isTaskbar) {
-		std::shared_ptr<Icon> ic = std::make_shared<Icon>(iname, itx, iPosition, scale);
-		icons[iname] = ic;
-		return;
-	}
-	float position = (taskbaricons.size()+1) * 40 * scale;
-	sf::Vector2f v2fpos(position, sf::VideoMode::getDesktopMode().height - (40 * scale));
-	std::shared_ptr<TaskbarIcon> tic = std::make_shared<TaskbarIcon>(iname, itx, v2fpos, scale);
-	taskbaricons[iname] = tic;
 }
