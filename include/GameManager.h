@@ -1,8 +1,8 @@
 #pragma once
 #include "ShitManager.h"
 #include "ResourceManager.h"
-#include "Icon.h"
 #include "Clock.h"
+#include "ini.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <fstream>
@@ -28,6 +28,4 @@ private:
     sf::RenderWindow& m_window;
     sf::Event event;
     sf::Sprite bg;
-    sf::RectangleShape taskbar,starticon;
-    sf::Texture ss;
 };

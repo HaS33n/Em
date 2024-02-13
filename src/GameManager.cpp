@@ -1,33 +1,17 @@
 #include "..\include\GameManager.h"
-GameManager::GameManager(sf::RenderWindow& window) : m_window(window) {
-
-	m_window.setFramerateLimit(300);
+GameManager::GameManager(sf::RenderWindow& window) : m_window(window), SM(1.25,RM) {
+	
 	SM.setFont(RM.loadFont("arial"));
-	std::cout << "enter interface scale: ";
-	std::cin >> iS;
+	iS = 1.25;
 	SM.setScale(iS);
 	float sx, sy;
 	sx = float(sf::VideoMode::getDesktopMode().width) / float(3840);
 	sy = float(sf::VideoMode::getDesktopMode().height) / float(2160);
 	bg.setScale(sx, sy); 
-
-	taskbar.setSize(sf::Vector2f(sf::VideoMode::getDesktopMode().width, 40 * iS));
-	taskbar.setFillColor(sf::Color::White);
-	taskbar.setPosition(sf::Vector2f(0, sf::VideoMode::getDesktopMode().height - (40 * iS)));
-
-	starticon.setSize(sf::Vector2f(40 * iS, 40 * iS));
-	starticon.setTexture(&RM.loadTexture("starticon"));
-	starticon.setPosition(sf::Vector2f(0, sf::VideoMode::getDesktopMode().height - (40 * iS)));
-
-	RM.loadTexture("background");
-	bg.setTexture(RM.loadTexture("background"));
-	
-	SM.addIcon("Messenger", RM.loadTexture("Messenger"), sf::Vector2f(50,50),iS,false);
-	SM.addIcon("Terminal", RM.loadTexture("Terminal"), sf::Vector2f(80, 80),iS,false);
+	bg.setTexture(RM.loadTexture("background")); //true
 
 	clk.Init(RM.loadFont("arial"), iS);
-
-	ss.create(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
+	SM.addApp("Terminal");
 }
 
 sf::RenderWindow& GameManager::GetWindow() {
@@ -41,8 +25,6 @@ void GameManager::runGame() {
 			switch (event.type)
 			{
 			case sf::Event::Closed:
-				ss.update(m_window);
-				ss.copyToImage().saveToFile("mmbg.png");
 				m_window.close();
 				break;
 
@@ -67,28 +49,16 @@ void GameManager::runGame() {
 void GameManager::handleMouse(sf::Vector2i mousepos) {
 	std::cout << mousepos.x << " " << mousepos.y << std::endl;
 
-	SM.handleMouse(m_window.mapPixelToCoords(mousepos),mousepos);
+	SM.handleMouse(m_window.mapPixelToCoords(mousepos));
 		
 }
 
 void GameManager::handleKeyboard(sf::Keyboard::Key key) {
-	if (key == sf::Keyboard::Escape) {
-		ss.update(m_window);
-		ss.copyToImage().saveToFile("mmbg.png");
-		std::cout << "ss'ed the screen" << std::endl;
+	if (key == sf::Keyboard::Escape) 
 		m_window.close();
-	}
 		
-	else if (key == sf::Keyboard::Key::RAlt)
-		SM.addApp("Terminal");
 	else if (key == sf::Keyboard::RShift)
-		SM.killApp("Terminal");
-	else if (key == sf::Keyboard::T) {
-		if (SM.slctd != nullptr) {
-			SM.addIcon(SM.slctd->getName(), RM.loadTexture(SM.slctd->getName()), sf::Vector2f(0, 0), iS, true);
-		}
-	}
-		
+		SM.addApp("Messenger");
 
 	std::cout << key << std::endl;
 }
@@ -97,36 +67,18 @@ void GameManager::updateWindow() {
 	m_window.clear(sf::Color::White);
 	m_window.draw(bg);
 	
-	for (auto& it : SM.icons) {
-		it.second->display(m_window);
-	}
-
 	for (auto& it : SM.apps) {
 		it.second->refreshApp();
 		it.second->display(m_window);
 	}
 
-	m_window.draw(taskbar);
-
-	for (auto& it : SM.taskbaricons) {
-		it.second->display(m_window);
-	}
-
-	m_window.draw(starticon);
 	m_window.draw(clk);
 	m_window.display();
 	
 }
 
 void GameManager::updateSM() {
-	SM.testIcons();
 	for (auto& it : SM.apps) {
 		it.second->dragWindow(event);
-	}
-	for (auto& it : SM.icons) {
-		it.second->dragIcon(event);
-	}
-	for (auto& it : SM.taskbaricons) {
-		it.second->onClick(event);
 	}
 }

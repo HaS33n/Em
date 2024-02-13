@@ -11,6 +11,17 @@ void Clock::Init(sf::Font& fnt, float scale) { //font poza scopem
 
 }
 
+void Clock::Init(sf::Font& fnt, float scale, sf::Vector2f pos, float size, sf::Color clr){ //szybkie kopiowañsko
+    updateClock();
+    content.setFont(fnt);
+
+    content.setCharacterSize(size * scale);
+    content.setStyle(sf::Text::Regular);
+    content.setFillColor(clr);
+    content.setPosition(pos);
+
+}
+
 void Clock::updateClock() {
     //auto now = std::chrono::system_clock::now();
     //std::time_t current_time = std::chrono::system_clock::to_time_t(now);
@@ -20,7 +31,7 @@ void Clock::updateClock() {
     ::localtime_s(&lct,&t); //deprecated w release
 
     std::ostringstream oss;
-    oss << std::put_time(&lct, "%d-%m-%Y %H-%M-%S");
+    oss << std::put_time(&lct, "%H : %M");
     auto str = oss.str();
 
     content.setString(str);
