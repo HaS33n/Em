@@ -6,7 +6,7 @@ This is currently unnamed, text-based adventure game, where player is using his 
 
 ## Overview
 
-Indie Text Game offers a unique narrative-driven experience where players navigate through various scenarios, making choices that impact the storyline. With its minimalist design and focus on storytelling, the game aims to captivate players' imagination and forces them to question their moral choices.
+The Game offers a unique narrative-driven experience where players navigate through various scenarios, making choices that impact the storyline. With its minimalist design and focus on storytelling, the game aims to captivate players' imagination and forces them to question their moral choices.
 
 ## Features
 
